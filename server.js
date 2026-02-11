@@ -249,8 +249,8 @@ Think like an enthusiast, not a corporate marketer. Would this ad make someone p
     }
 });
 
-// Start server
-app.listen(PORT, () => {
+// Start server - bind to 0.0.0.0 for Railway
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`
 ╔════════════════════════════════════════════════════════════╗
 ║                                                            ║
