@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Creative Director Ad Review - Marine Concepts & Coastline</title>
+    <style>
+        /* ============================================
+           STYLING - Professional, clean design
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: #667eea;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        /* API Key Setup */
+        .api-setup {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .api-setup.configured {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .api-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* Form Controls */
+        input[type="text"],
+        input[type="password"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Multiple file preview */
+        .files-preview {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .file-item {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .file-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .file-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .remove-file {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Buttons */
+        button {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #28a745;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #218838;
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Results Display */
+        .results {
+            display: none;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .results-header h2 {
+            color: #333;
+            font-size: 22px;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Enhanced score cards */
+        .score-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .score-card h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .score-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .score-analysis {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .suggestions-box {
+            background: white;
+            border: 2px dashed #667eea;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+
+        .suggestions-box h4 {
+            font-size: 14px;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .suggestion-item {
+            background: #f0f4ff;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .suggestion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .rationale {
+            font-size: 13px;
+            color: #888;
+            font-style: italic;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Priority fixes */
+        .priority-fixes {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .priority-fixes h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .priority-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #ffc107;
+        }
+
+        .priority-number {
+            display: inline-block;
+            background: #ffc107;
+            color: #333;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 600;
+            margin-right: 8px;
+            font-size: 13px;
+        }
+
+        /* Industry benchmarks */
+        .benchmarks {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .benchmarks h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .benchmarks p {
+            font-size: 14px;
+            line-height: 1.7;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        .benchmarks p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Overall summary */
+        .overall {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .overall h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .overall p {
+            font-size: 14px;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* Error Display */
+        .error {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* Instructions */
+        .instructions {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .instructions strong {
+            color: #1976D2;
+        }
+
+        .instructions ol {
+            margin: 10px 0 10px 20px;
+        }
+
+        .instructions li {
+            margin: 5px 0;
+        }
+
+        /* Print styles for agency reports */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .header, .api-setup, .section, .btn-primary, .btn-secondary, .instructions {
+                display: none;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .results {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================
+             HEADER SECTION
+             ============================================ -->
+        <div class="header">
+            <h1>🚤 Elite Creative Director Ad Review</h1>
+            <p>Marine Concepts & Coastline | 20 Years Aftermarket Enthusiast Brand Expertise</p>
+        </div>
+
+        <div class="content">
+            <!-- ============================================
+                 SETUP INSTRUCTIONS
+                 ============================================ -->
+            <div class="instructions">
+                <strong>🎯 Elite Creative Director Analysis:</strong> This tool provides brutally honest, specific, actionable feedback from 20 years of aftermarket enthusiast brand expertise. Get exact rewrites, brand references, and concrete changes you can implement immediately.
+                <ol>
+                    <li>Get your Claude API key from <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></li>
+                    <li><strong>Select your brand</strong> (Marine Concepts or Coastline) and <strong>ad format type</strong> for tailored recommendations</li>
+                    <li>Upload one or multiple ad creatives (images, emails, designs)</li>
+                    <li>Get specific fixes with examples from YETI, Salt Life, Fox Racing, Rigid Industries, AFTCO, Hoonigan, and more</li>
+                </ol>
+            </div>
+
+            <!-- ============================================
+                 API KEY CONFIGURATION
+                 ============================================ -->
+            <div class="api-setup" id="apiSetup">
+                <div class="section-title">🔑 Claude API Configuration</div>
+                <div class="api-input-group">
+                    <input
+                        type="password"
+                        id="apiKeyInput"
+                        placeholder="Paste your Claude API key here (sk-ant-...)"
+                    >
+                    <button class="btn-primary btn-small" onclick="saveApiKey()">Save API Key</button>
+                </div>
+                <div style="margin-top: 8px; font-size: 13px; color: #666;">
+                    Your API key is stored locally in your browser and never sent anywhere except to Claude's API.
+                </div>
+            </div>
+
+            <!-- ============================================
+                 AD UPLOAD FORM
+                 ============================================ -->
+            <!-- ============================================
+                 BRAND SELECTION
+                 ============================================ -->
+            <div class="section">
+                <div class="section-title">🏢 Select Brand</div>
+                <select id="brandSelect" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; font-family: inherit;">
+                    <option value="marine-concepts">Marine Concepts</option>
+                    <option value="coastline">Coastline Boat Lift Covers</option>
+                </select>
+            </div>
+
+            <!-- ============================================
+                 AD FORMAT SELECTION
+                 ============================================ -->
+            <div class="section">
+                <div class="section-title">📱 Ad Format Type</div>
+                <select id="formatSelect" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; font-family: inherit;">
+                    <option value="organic-social">Organic Social (Instagram/Facebook Feed)</option>
+                    <option value="paid-social">Paid Social (Facebook/Instagram Ads)</option>
+                    <option value="stories-reels">Stories/Reels (Vertical Video)</option>
+                    <option value="ppc">PPC (Google/Bing Search Ads)</option>
+                    <option value="display">Display Ads (Banner/Native)</option>
+                    <option value="email">Email Marketing</option>
+                    <option value="website">Website (Landing Page/Hero)</option>
+                    <option value="offline">Offline (Print/Trade Show/Direct Mail)</option>
+                    <option value="video">Video Ad (YouTube/Pre-roll)</option>
+                </select>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📷 Upload Ad Creative(s)</div>
+                <input
+                    type="file"
+                    id="imageUpload"
+                    accept="image/jpeg,image/jpg,image/png"
+                    onchange="previewImages()"
+                    multiple
+                >
+                <p style="font-size: 13px; color: #666; margin-top: 8px;">
+                    Upload multiple images to analyze several ads at once
+                </p>
+                <div class="files-preview" id="filesPreview"></div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📝 Ad Copy (Optional)</div>
+                <textarea
+                    id="adCopy"
+                    placeholder="Paste your ad headline, body text, and call-to-action here (optional - the tool can analyze just the image too)..."
+                ></textarea>
+            </div>
+
+            <!-- ============================================
+                 REVIEW BUTTON
+                 ============================================ -->
+            <div class="section">
+                <button class="btn-primary" id="reviewBtn" onclick="reviewAds()" disabled>
+                    🔍 Get Elite Creative Director Analysis
+                </button>
+            </div>
+
+            <!-- ============================================
+                 ERROR DISPLAY
+                 ============================================ -->
+            <div class="error" id="errorDisplay"></div>
+
+            <!-- ============================================
+                 LOADING STATE
+                 ============================================ -->
+            <div class="loading" id="loadingState">
+                <div class="spinner"></div>
+                <p>Elite creative director analyzing your ad with 20 years of enthusiast brand expertise...</p>
+            </div>
+
+            <!-- ============================================
+                 RESULTS DISPLAY
+                 ============================================ -->
+            <div class="results" id="resultsSection">
+                <div class="results-header">
+                    <h2>📊 Expert Analysis & Recommendations</h2>
+                    <div class="export-buttons">
+                        <button class="btn-secondary btn-small" onclick="exportToHTML()">📄 Export for Agency</button>
+                        <button class="btn-secondary btn-small" onclick="saveToCSV()">💾 Save to CSV</button>
+                    </div>
+                </div>
+                <div id="resultsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================
+           JAVASCRIPT - Application Logic
+           ============================================ */
+
+        // Global variables
+        let currentReviews = [];
+        let uploadedFiles = [];
+
+        /* ============================================
+           API KEY MANAGEMENT
+           ============================================ */
+
+        window.onload = function() {
+            const savedKey = localStorage.getItem('claudeApiKey');
+            if (savedKey) {
+                document.getElementById('apiKeyInput').value = savedKey;
+                markApiKeyConfigured();
+            }
+        };
+
+        function saveApiKey() {
+            const apiKey = document.getElementById('apiKeyInput').value.trim();
+
+            if (!apiKey) {
+                showError('Please enter an API key');
+                return;
+            }
+
+            if (!apiKey.startsWith('sk-ant-')) {
+                showError('Invalid API key format. Claude API keys start with "sk-ant-"');
+                return;
+            }
+
+            localStorage.setItem('claudeApiKey', apiKey);
+            markApiKeyConfigured();
+            showError('API key saved successfully! ✓', 'success');
+            updateReviewButtonState();
+        }
+
+        function markApiKeyConfigured() {
+            const apiSetup = document.getElementById('apiSetup');
+            apiSetup.classList.add('configured');
+            updateReviewButtonState();
+        }
+
+        /* ============================================
+           MULTIPLE FILE HANDLING
+           ============================================ */
+
+        function previewImages() {
+            const files = document.getElementById('imageUpload').files;
+            const preview = document.getElementById('filesPreview');
+
+            uploadedFiles = [];
+            preview.innerHTML = '';
+
+            if (files.length > 0) {
+                preview.style.display = 'block';
+
+                Array.from(files).forEach((file, index) => {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'file-item';
+                        fileItem.innerHTML = `
+                            <div class="file-item-header">
+                                <span class="file-name">📄 ${file.name}</span>
+                                <button class="remove-file" onclick="removeFile(${index})">Remove</button>
+                            </div>
+                            <img src="${e.target.result}" alt="${file.name}">
+                        `;
+                        preview.appendChild(fileItem);
+
+                        uploadedFiles.push({
+                            name: file.name,
+                            type: file.type,
+                            base64: e.target.result.split(',')[1]
+                        });
+
+                        updateReviewButtonState();
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            const dataTransfer = new DataTransfer();
+            const files = document.getElementById('imageUpload').files;
+
+            Array.from(files).forEach((file, i) => {
+                if (i !== index) dataTransfer.items.add(file);
+            });
+
+            document.getElementById('imageUpload').files = dataTransfer.files;
+            previewImages();
+        }
+
+        /* ============================================
+           BUTTON STATE MANAGEMENT
+           ============================================ */
+
+        function updateReviewButtonState() {
+            const apiKey = localStorage.getItem('claudeApiKey');
+            const hasFiles = uploadedFiles.length > 0;
+            const reviewBtn = document.getElementById('reviewBtn');
+
+            reviewBtn.disabled = !apiKey || !hasFiles;
+        }
+
+        /* ============================================
+           MAIN REVIEW FUNCTION
+           ============================================ */
+
+        async function reviewAds() {
+            const apiKey = localStorage.getItem('claudeApiKey');
+            const adCopy = document.getElementById('adCopy').value.trim();
+            const brand = document.getElementById('brandSelect').value;
+            const adFormat = document.getElementById('formatSelect').value;
+
+            if (!apiKey) {
+                showError('Please configure your API key first');
+                return;
+            }
+
+            if (uploadedFiles.length === 0) {
+                showError('Please upload at least one ad image');
+                return;
+            }
+
+            // Show loading state
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('errorDisplay').style.display = 'none';
+            document.getElementById('reviewBtn').disabled = true;
+
+            currentReviews = [];
+
+            try {
+                // Process each file
+                for (let i = 0; i < uploadedFiles.length; i++) {
+                    const file = uploadedFiles[i];
+
+                    const response = await fetch('http://localhost:3000/api/review', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            apiKey: apiKey,
+                            imageBase64: file.base64,
+                            imageType: file.type,
+                            adCopy: adCopy,
+                            brand: brand,
+                            adFormat: adFormat
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!data.success) {
+                        throw new Error(data.error || 'API request failed');
+                    }
+
+                    currentReviews.push({
+                        fileName: file.name,
+                        review: data.review,
+                        adCopy: adCopy,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+
+                displayResults();
+
+            } catch (error) {
+                showError('Error: ' + error.message);
+                console.error('Full error:', error);
+            } finally {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('reviewBtn').disabled = false;
+            }
+        }
+
+        /* ============================================
+           ENHANCED RESULTS DISPLAY
+           ============================================ */
+
+        function displayResults() {
+            const resultsContent = document.getElementById('resultsContent');
+            let html = '';
+
+            currentReviews.forEach((item, index) => {
+                const review = item.review;
+
+                html += `
+                    <div style="margin-bottom: 50px; padding-bottom: 30px; ${index < currentReviews.length - 1 ? 'border-bottom: 3px solid #e0e0e0;' : ''}">
+                        <h2 style="color: #1e3c72; margin-bottom: 20px; font-size: 24px;">
+                            📷 Creative ${index + 1}: ${item.fileName}
+                        </h2>
+
+                        <!-- Overall Score -->
+                        <div class="overall">
+                            <h3>Overall Impression: ${review.overall_impression.score}/10</h3>
+                            <p>${review.overall_impression.summary}</p>
+                        </div>
+
+                        <!-- Priority Fixes -->
+                        <div class="priority-fixes">
+                            <h3>🎯 Top 3 Priority Fixes</h3>
+                            ${review.overall_impression.priority_fixes.map((fix, i) => `
+                                <div class="priority-item">
+                                    <span class="priority-number">${i + 1}</span>
+                                    <strong>${fix}</strong>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- Headline -->
+                        <div class="score-card">
+                            <h3>
+                                📝 Headline Effectiveness
+                                <span class="score-badge">${review.headline_effectiveness.score}/10</span>
+                            </h3>
+                            <p class="score-analysis">${review.headline_effectiveness.analysis}</p>
+
+                            <div class="suggestions-box">
+                                <h4>✨ Suggested Headlines (choose one):</h4>
+                                ${review.headline_effectiveness.suggested_headlines.map((headline, i) => `
+                                    <div class="suggestion-item"><strong>Option ${i + 1}:</strong> "${headline}"</div>
+                                `).join('')}
+                                <p class="rationale">${review.headline_effectiveness.rationale}</p>
+                            </div>
+                        </div>
+
+                        <!-- Value Proposition -->
+                        <div class="score-card">
+                            <h3>
+                                💎 Value Proposition Clarity
+                                <span class="score-badge">${review.value_proposition_clarity.score}/10</span>
+                            </h3>
+                            <p class="score-analysis">${review.value_proposition_clarity.analysis}</p>
+
+                            <div class="suggestions-box">
+                                <h4>✨ Suggested Value Propositions:</h4>
+                                ${review.value_proposition_clarity.suggested_value_props.map((vp, i) => `
+                                    <div class="suggestion-item">${vp}</div>
+                                `).join('')}
+                                <p class="rationale"><strong>Benchmark:</strong> ${review.value_proposition_clarity.benchmark}</p>
+                            </div>
+                        </div>
+
+                        <!-- Body Copy -->
+                        <div class="score-card">
+                            <h3>
+                                📄 Body Copy
+                                <span class="score-badge">${review.body_copy.score}/10</span>
+                            </h3>
+                            <p class="score-analysis">${review.body_copy.analysis}</p>
+
+                            <div class="suggestions-box">
+                                <h4>✨ Rewritten Body Copy:</h4>
+                                <div class="suggestion-item">${review.body_copy.suggested_body_copy}</div>
+                                <p class="rationale">${review.body_copy.rationale}</p>
+                            </div>
+                        </div>
+
+                        <!-- Call to Action -->
+                        <div class="score-card">
+                            <h3>
+                                🎯 Call-to-Action Strength
+                                <span class="score-badge">${review.cta_strength.score}/10</span>
+                            </h3>
+                            <p class="score-analysis">${review.cta_strength.analysis}</p>
+
+                            <div class="suggestions-box">
+                                <h4>✨ Suggested CTAs:</h4>
+                                ${review.cta_strength.suggested_ctas.map((cta, i) => `
+                                    <div class="suggestion-item"><strong>Option ${i + 1}:</strong> "${cta}"</div>
+                                `).join('')}
+                                <p class="rationale"><strong>Placement:</strong> ${review.cta_strength.placement_advice}</p>
+                            </div>
+                        </div>
+
+                        <!-- Target Audience -->
+                        <div class="score-card">
+                            <h3>
+                                👥 Target Audience Alignment
+                                <span class="score-badge">${review.target_audience_alignment.score}/10</span>
+                            </h3>
+                            <p class="score-analysis"><strong>Primary Audience:</strong> ${review.target_audience_alignment.audience}</p>
+                            <p class="score-analysis">${review.target_audience_alignment.analysis}</p>
+                            <p class="score-analysis"><strong>Suggestions:</strong> ${review.target_audience_alignment.suggestions}</p>
+                        </div>
+
+                        <!-- Visual Hierarchy -->
+                        <div class="score-card">
+                            <h3>
+                                🎨 Visual Hierarchy & Design
+                                <span class="score-badge">${review.visual_hierarchy.score}/10</span>
+                            </h3>
+                            <p class="score-analysis">${review.visual_hierarchy.analysis}</p>
+
+                            <div class="suggestions-box">
+                                <h4>✨ Specific Design Improvements:</h4>
+                                ${review.visual_hierarchy.specific_improvements.map((imp, i) => `
+                                    <div class="suggestion-item"><strong>${i + 1}.</strong> ${imp}</div>
+                                `).join('')}
+                                <p class="rationale"><strong>Inspiration:</strong> ${review.visual_hierarchy.inspiration}</p>
+                            </div>
+                        </div>
+
+                        <!-- Brand Positioning -->
+                        <div class="score-card">
+                            <h3>
+                                🏆 Brand Positioning
+                                <span class="score-badge">${review.brand_positioning.score}/10</span>
+                            </h3>
+                            <p class="score-analysis">${review.brand_positioning.analysis}</p>
+                            <p class="score-analysis"><strong>Elevation Strategy:</strong> ${review.brand_positioning.suggestions}</p>
+                        </div>
+
+                        <!-- Lead Generation -->
+                        <div class="score-card">
+                            <h3>
+                                📈 Lead Generation Potential
+                                <span class="score-badge">${review.lead_generation_potential.score}/10</span>
+                            </h3>
+                            <p class="score-analysis">${review.lead_generation_potential.analysis}</p>
+
+                            <div class="suggestions-box">
+                                <h4>✨ Conversion Improvements:</h4>
+                                ${review.lead_generation_potential.conversion_improvements.map((imp, i) => `
+                                    <div class="suggestion-item">${imp}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Industry Benchmarks -->
+                        <div class="benchmarks">
+                            <h3>🌟 Industry Benchmarks & Best Practices</h3>
+                            <p><strong>Successful Examples:</strong> ${review.industry_benchmarks.similar_successful_ads}</p>
+                            <p><strong>Key Takeaways:</strong> ${review.industry_benchmarks.key_takeaways}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            resultsContent.innerHTML = html;
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        /* ============================================
+           EXPORT FUNCTIONS
+           ============================================ */
+
+        function exportToHTML() {
+            if (currentReviews.length === 0) {
+                showError('No reviews to export');
+                return;
+            }
+
+            const resultsContent = document.getElementById('resultsContent').innerHTML;
+            const timestamp = new Date().toLocaleString();
+
+            const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ad Review Report - ${timestamp}</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; }
+        h1 { color: #1e3c72; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
+        h2 { color: #333; margin-top: 30px; }
+        h3 { color: #667eea; }
+        .score-badge { background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; }
+        .score-card { background: #f8f9fa; border-left: 4px solid #667eea; padding: 20px; margin: 20px 0; }
+        .suggestions-box { background: white; border: 2px dashed #667eea; padding: 15px; margin: 10px 0; }
+        .suggestion-item { background: #f0f4ff; padding: 10px; margin: 8px 0; border-radius: 4px; }
+        .priority-fixes { background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin: 20px 0; }
+        .priority-item { background: white; padding: 12px; margin: 10px 0; border-left: 3px solid #ffc107; }
+        .benchmarks { background: #28a745; color: white; padding: 20px; margin: 20px 0; }
+        .overall { background: #667eea; color: white; padding: 25px; margin: 20px 0; }
+        .rationale { color: #888; font-style: italic; font-size: 13px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🚤 Ad Creative Review Report</h1>
+    <p><strong>Generated:</strong> ${timestamp}</p>
+    <p><strong>Company:</strong> Marine Concepts & Coastline</p>
+    <hr>
+    ${resultsContent}
+    <hr>
+    <p style="text-align: center; color: #666; font-size: 12px;">Generated by World-Class Ad Review Tool | Powered by Claude AI</p>
+</body>
+</html>
+            `;
+
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ad-review-report-${new Date().getTime()}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showError('Report exported! Share this HTML file with your agency. ✓', 'success');
+        }
+
+        function saveToCSV() {
+            if (currentReviews.length === 0) {
+                showError('No reviews to save');
+                return;
+            }
+
+            const timestamp = new Date().toLocaleString();
+            let csv = 'Timestamp,File Name,Category,Score,Details\n';
+
+            currentReviews.forEach(item => {
+                const review = item.review;
+                const fileName = item.fileName;
+
+                csv += `"${timestamp}","${fileName}","Overall","${review.overall_impression.score}","${escapeCSV(review.overall_impression.summary)}"\n`;
+                csv += `"${timestamp}","${fileName}","Headline","${review.headline_effectiveness.score}","${escapeCSV(review.headline_effectiveness.suggested_headlines.join(' | '))}"\n`;
+                csv += `"${timestamp}","${fileName}","Value Prop","${review.value_proposition_clarity.score}","${escapeCSV(review.value_proposition_clarity.suggested_value_props.join(' | '))}"\n`;
+                csv += `"${timestamp}","${fileName}","Body Copy","${review.body_copy.score}","${escapeCSV(review.body_copy.suggested_body_copy)}"\n`;
+                csv += `"${timestamp}","${fileName}","CTA","${review.cta_strength.score}","${escapeCSV(review.cta_strength.suggested_ctas.join(' | '))}"\n`;
+                csv += `"${timestamp}","${fileName}","Target Audience","${review.target_audience_alignment.score}","${escapeCSV(review.target_audience_alignment.audience)}"\n`;
+                csv += `"${timestamp}","${fileName}","Visual Design","${review.visual_hierarchy.score}","${escapeCSV(review.visual_hierarchy.specific_improvements.join(' | '))}"\n`;
+                csv += `"${timestamp}","${fileName}","Brand Positioning","${review.brand_positioning.score}","${escapeCSV(review.brand_positioning.suggestions)}"\n`;
+                csv += `"${timestamp}","${fileName}","Lead Gen Potential","${review.lead_generation_potential.score}","${escapeCSV(review.lead_generation_potential.conversion_improvements.join(' | '))}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ad-review-${new Date().getTime()}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showError('CSV saved! ✓', 'success');
+        }
+
+        function escapeCSV(text) {
+            if (!text) return '';
+            return String(text).replace(/"/g, '""');
+        }
+
+        /* ============================================
+           ERROR HANDLING
+           ============================================ */
+
+        function showError(message, type = 'error') {
+            const errorDiv = document.getElementById('errorDisplay');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+
+            if (type === 'success') {
+                errorDiv.style.background = '#d4edda';
+                errorDiv.style.borderColor = '#28a745';
+                errorDiv.style.color = '#155724';
+            } else {
+                errorDiv.style.background = '#f8d7da';
+                errorDiv.style.borderColor = '#dc3545';
+                errorDiv.style.color = '#721c24';
+            }
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
